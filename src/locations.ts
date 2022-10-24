@@ -1,4 +1,18 @@
+import { sub, set } from "date-fns";
+
 import { MurmurHash3, Xoshiro128 } from "./random";
+
+export interface IVisit {
+  id: number;
+  locationId: number;
+  date: number;
+}
+
+export interface ILocation {
+  id: number;
+  name: string;
+  tags: string[];
+}
 
 // Use seeded random to create predictable locations
 const gs = MurmurHash3("Olivia loves BTS!");
@@ -57,9 +71,36 @@ const names = [
   "Yo Jo Coffee Shop",
 ];
 
-export const locations = names.map((name, index) => ({
+export const locations = names.map<ILocation>((name, index) => ({
   id: index + 1,
   name,
-  visits: randomInt(30),
-  tags: randomBoolean(0.1) ? ["featured"] : [],
+  tags: randomBoolean(0.3) ? ["featured"] : [],
 }));
+
+export const locationMap = locations.reduce<Record<number, ILocation>>(
+  (result, location) => {
+    result[location.id] = location;
+    return result;
+  },
+  {}
+);
+
+const dates = Array.from({ length: 100 }, (_, index) =>
+  sub(
+    set(new Date(), {
+      hours: randomInt(23, 0),
+      minutes: randomInt(59, 0),
+      seconds: randomInt(59, 0),
+      milliseconds: randomInt(999, 0),
+    }),
+    { days: randomInt(index + 5, index) }
+  ).getTime()
+).sort((a, b) => a - b);
+
+export const visits = dates
+  .map<IVisit>((date, index) => ({
+    id: index + 1,
+    locationId: randomInt(locations.length),
+    date,
+  }))
+  .reverse();
