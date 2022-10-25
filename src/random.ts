@@ -33,3 +33,16 @@ export function Xoshiro128(
     return (y >>> 0) / 4294967296;
   };
 }
+
+// Use seeded random to create predictable locations
+const getRandom = (seed: string) => {
+  const gs = MurmurHash3(seed);
+  const random = Xoshiro128(gs(), gs(), gs(), gs());
+  return {
+    int: (max: number, min: number = 1) => Math.floor(random() * max) + min,
+    bool: (chance: number = 0.5) => random() < chance,
+    float: random,
+  };
+};
+
+export default getRandom;
