@@ -1,0 +1,12 @@
+[build]
+  command = "vite build"
+  functions = "functions"
+  publish = "dist"
+
+[dev]
+  command = "vite"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
