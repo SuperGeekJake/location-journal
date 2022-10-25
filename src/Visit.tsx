@@ -1,7 +1,5 @@
 import { type Component, Show } from "solid-js";
 
-import { type IVisit, type ILocation } from "./locations";
-
 const Visit: Component<{ visit: IVisit; location: ILocation }> = (props) => {
   return (
     <div class="bg-white">
