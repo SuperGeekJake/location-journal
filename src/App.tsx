@@ -32,29 +32,32 @@ const App: Component = () => {
   };
 
   return (
-    <div class="grid">
-      <Show
-        when={showFeatured()}
-        fallback={
+    <main class="px-4 md:px-8 pt-5 md:pt-9">
+      <nav class="bg-amber-50 p-4 border-2 border-b-8 border-neutral-900 sticky top-0 z-40">
+        <Show
+          when={showFeatured()}
+          fallback={
+            <button
+              class="max-w-max h-max inline-flex items-center gap-x-2 py-1.5 px-3 rounded-full border-2 border-neutral-900"
+              onClick={toggle}
+              aria-label="Show featured visits only"
+            >
+              <span class="rounded-full w-3 h-3 bg-black" /> Show all visits
+            </button>
+          }
+        >
           <button
             class="max-w-max h-max inline-flex items-center gap-x-2 py-1.5 px-3 rounded-full border-2 border-neutral-900"
             onClick={toggle}
-            aria-label="Show featured visits only"
+            aria-label="Show all visits"
           >
-            <span class="rounded-full w-3 h-3 bg-black" /> Show all visits
+            <span class="rounded-full w-3 h-3 border-2 border-neutral-900" /> Show
+            all visits
           </button>
-        }
-      >
-        <button
-          class="max-w-max h-max inline-flex items-center gap-x-2 py-1.5 px-3 rounded-full border-2 border-neutral-900"
-          onClick={toggle}
-          aria-label="Show all visits"
-        >
-          <span class="rounded-full w-3 h-3 border-2 border-neutral-900" /> Show
-          all visits
-        </button>
-      </Show>
-      <main class="grid grid-cols-4 gap-0.5 border-2 border-neutral-900 bg-neutral-900">
+        </Show>
+      </nav>
+        
+      <section class="py-6 md:py-8 flex-1 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-5 gap-y-5 md:gap-y-7">
         <For each={list()}>
           {(item) => (
             <Visit
@@ -65,8 +68,8 @@ const App: Component = () => {
             />
           )}
         </For>
-      </main>
-    </div>
+      </section>
+    </main>
   );
 };
 
