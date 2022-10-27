@@ -4,11 +4,8 @@ module.exports = {
   content: ["./index.html", "./src/**/*.tsx"],
   theme: {
     extend: {
-      colors: {
-        'sand': '#e8e5da',
-      },
-      fontFamily: {
-        hackyd: ["Hacky Demo", "serif"],
+      boxShadow: {
+        'solid': '4px 4px 0 0 rgba(23,23,23,0.3)',
       },
     },
   },
