@@ -33,25 +33,29 @@ const App: Component = () => {
 
   return (
     <main class="px-4 md:px-8 pt-5 md:pt-9">
-      <nav class="bg-amber-50 p-4 border-2 border-b-8 border-neutral-900 sticky top-0 z-40">
+      <nav class="bg-amber-100 dark:bg-slate-900 px-4 py-3 border-2 border-b-8 border-neutral-900 dark:border-slate-600 sticky top-0 z-40 flex justify-between items-center">
+        <a href="/" class="flex gap-2 items-center">
+          <img src="./src/assets/logo.svg" alt="Website logo" class="w-9 flex-none" loading="eager"/>
+          <span class="font-serif font-semibold uppercase text-2xl leading-none dark:text-white">Lojo Jojo</span>
+        </a>
         <Show
           when={showFeatured()}
           fallback={
             <button
-              class="max-w-max h-max inline-flex items-center gap-x-2 py-1.5 px-3 rounded-full border-2 border-neutral-900"
+              class="max-w-max h-max inline-flex items-center gap-x-2 py-1.5 px-3 rounded-full border-2 border-neutral-900 dark:border-white dark:text-white"
               onClick={toggle}
               aria-label="Show featured visits only"
             >
-              <span class="rounded-full w-3 h-3 bg-black" /> Show all visits
+              <span class="rounded-full w-3 h-3 bg-black dark:bg-white" /> Show all visits
             </button>
           }
         >
           <button
-            class="max-w-max h-max inline-flex items-center gap-x-2 py-1.5 px-3 rounded-full border-2 border-neutral-900"
+            class="max-w-max h-max inline-flex items-center gap-x-2 py-1.5 px-3 rounded-full border-2 border-neutral-900 dark:border-white dark:text-white"
             onClick={toggle}
             aria-label="Show all visits"
           >
-            <span class="rounded-full w-3 h-3 border-2 border-neutral-900" /> Show
+            <span class="rounded-full w-3 h-3 border-2 border-neutral-900 dark:border-white" /> Show
             all visits
           </button>
         </Show>
