@@ -35,8 +35,15 @@ const App: Component = () => {
     <main class="px-4 md:px-8 pt-5 md:pt-9">
       <nav class="bg-amber-100 dark:bg-slate-900 px-4 py-3 border-2 border-b-8 border-neutral-900 dark:border-slate-600 sticky top-0 z-40 flex justify-between items-center">
         <a href="/" class="flex gap-2 items-center">
-          <img src="./src/assets/logo.svg" alt="Website logo" class="w-9 flex-none" loading="eager"/>
-          <span class="font-serif font-semibold uppercase text-2xl leading-none dark:text-white">Lojo Jojo</span>
+          <img
+            src="./src/assets/logo.svg"
+            alt="Website logo"
+            class="w-9 flex-none"
+            loading="eager"
+          />
+          <span class="font-serif font-semibold uppercase text-2xl leading-none dark:text-white">
+            Lojo Jojo
+          </span>
         </a>
         <Show
           when={showFeatured()}
@@ -46,7 +53,8 @@ const App: Component = () => {
               onClick={toggle}
               aria-label="Show featured visits only"
             >
-              <span class="rounded-full w-3 h-3 bg-black dark:bg-white" /> Show all visits
+              <span class="rounded-full w-3 h-3 bg-black dark:bg-white" /> Show
+              all visits
             </button>
           }
         >
@@ -55,12 +63,12 @@ const App: Component = () => {
             onClick={toggle}
             aria-label="Show all visits"
           >
-            <span class="rounded-full w-3 h-3 border-2 border-neutral-900 dark:border-white" /> Show
-            all visits
+            <span class="rounded-full w-3 h-3 border-2 border-neutral-900 dark:border-white" />{" "}
+            Show all visits
           </button>
         </Show>
       </nav>
-        
+
       <section class="py-6 md:py-8 flex-1 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-5 gap-y-5 md:gap-y-7">
         <For each={list()}>
           {(item) => (
