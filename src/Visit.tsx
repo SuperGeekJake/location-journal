@@ -1,6 +1,5 @@
 import { type Component, Show } from "solid-js";
-
-import { type IVisit, type ILocation } from "./locations";
+import { formatDistance } from "date-fns";
 
 const Visit: Component<{ visit: IVisit; location: ILocation }> = (props) => {
   return (
@@ -13,6 +12,9 @@ const Visit: Component<{ visit: IVisit; location: ILocation }> = (props) => {
             <span>⭐</span>
           </Show>
         </h3>
+        <div class="text-sm text-neutral-900">
+          {formatDistance(props.visit.date, new Date())}
+        </div>
       </div>
     </div>
   );

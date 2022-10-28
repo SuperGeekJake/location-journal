@@ -1,27 +1,8 @@
 import { sub, set } from "date-fns";
 
-import { MurmurHash3, Xoshiro128 } from "./random";
+import getRandom from "./random";
 
-export interface IVisit {
-  id: number;
-  locationId: number;
-  date: number;
-}
-
-export interface ILocation {
-  id: number;
-  name: string;
-  tags: string[];
-}
-
-// Use seeded random to create predictable locations
-const gs = MurmurHash3("Olivia loves BTS!");
-const random = Xoshiro128(gs(), gs(), gs(), gs());
-
-const randomInt = (max: number, min: number = 1) =>
-  Math.floor(random() * max) + min;
-
-const randomBoolean = (chance: number) => random() < chance;
+const random = getRandom("Olivia loves BTS!");
 
 const names = [
   "Aroma Mocha",
@@ -71,36 +52,38 @@ const names = [
   "Yo Jo Coffee Shop",
 ];
 
-export const locations = names.map<ILocation>((name, index) => ({
-  id: index + 1,
-  name,
-  tags: randomBoolean(0.3) ? ["featured"] : [],
-}));
-
-export const locationMap = locations.reduce<Record<number, ILocation>>(
-  (result, location) => {
-    result[location.id] = location;
+const createRecord = <T extends { id: number }>(arr: T[]) =>
+  arr.reduce((result, item) => {
+    result[item.id] = item;
     return result;
-  },
-  {}
+  }, {} as Record<string, T>);
+
+export const locations = createRecord(
+  names.map<ILocation>((name, index) => ({
+    id: index + 1,
+    name,
+    tags: random.bool(0.3) ? ["featured"] : [],
+  }))
 );
 
 const dates = Array.from({ length: 100 }, (_, index) =>
   sub(
     set(new Date(), {
-      hours: randomInt(23, 0),
-      minutes: randomInt(59, 0),
-      seconds: randomInt(59, 0),
-      milliseconds: randomInt(999, 0),
+      hours: random.int(23, 0),
+      minutes: random.int(59, 0),
+      seconds: random.int(59, 0),
+      milliseconds: random.int(999, 0),
     }),
-    { days: randomInt(index + 5, index) }
+    { days: random.int(index + 5, index) }
   ).getTime()
 ).sort((a, b) => a - b);
 
-export const visits = dates
-  .map<IVisit>((date, index) => ({
+const locationKeys = Object.keys(locations);
+
+export const visits = createRecord(
+  dates.map<IVisit>((date, index) => ({
     id: index + 1,
-    locationId: randomInt(locations.length),
+    locationId: random.int(locationKeys.length),
     date,
   }))
-  .reverse();
+);

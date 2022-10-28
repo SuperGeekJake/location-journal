@@ -1,18 +1,35 @@
-import { type Component, For, Show, createSignal, createMemo } from "solid-js";
+import {
+  type Component,
+  For,
+  Show,
+  createSignal,
+  createMemo,
+  createResource,
+} from "solid-js";
 
-import { visits, locationMap } from "./locations";
 import Visit from "./Visit";
 
 const App: Component = () => {
+  const [locations] = createResource<Record<string, ILocation>>(fetchLocations);
+  const [visits] = createResource<Record<string, IVisit>>(fetchVisits);
   const [showFeatured, setShowFeatured] = createSignal(true);
-  const toggle = () => setShowFeatured(!showFeatured());
+
   const list = createMemo(() => {
-    if (!showFeatured()) return visits;
-    return visits.filter((v) => {
-      const loc = locationMap[v.locationId];
-      return loc.tags.includes("featured");
+    const visitData = visits();
+    const locationData = locations();
+    if (!visitData || !locationData) return [];
+
+    const visitArr = Object.values(visitData).sort((a, b) => b.date - a.date);
+    if (!showFeatured()) return visitArr;
+    return visitArr.filter((v) => {
+      const location = locationData[v.locationId];
+      return location.tags.includes("featured");
     });
   });
+
+  const toggle = () => {
+    setShowFeatured(!showFeatured());
+  };
 
   return (
     <div class="grid">
@@ -40,7 +57,12 @@ const App: Component = () => {
       <main class="grid grid-cols-4 gap-0.5 border-2 border-neutral-900 bg-neutral-900">
         <For each={list()}>
           {(item) => (
-            <Visit visit={item} location={locationMap[item.locationId]} />
+            <Visit
+              visit={item}
+              location={
+                (locations() as Record<string, ILocation>)[item.locationId]
+              }
+            />
           )}
         </For>
       </main>
@@ -49,3 +71,13 @@ const App: Component = () => {
 };
 
 export default App;
+
+const fetchVisits = async () => {
+  const res = await fetch("/.netlify/functions/visits");
+  return res.json();
+};
+
+const fetchLocations = async () => {
+  const res = await fetch("/.netlify/functions/locations");
+  return res.json();
+};
