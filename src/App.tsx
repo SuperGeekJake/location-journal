@@ -41,7 +41,7 @@ const App: Component = () => {
             class="w-9 flex-none"
             loading="eager"
           />
-          <span class="font-serif font-semibold uppercase text-2xl leading-none dark:text-white">
+          <span class="font-serif font-semibold uppercase text-2xl leading-none text-indigo-900 dark:text-white">
             Lojo Jojo
           </span>
         </a>
@@ -81,6 +81,24 @@ const App: Component = () => {
           )}
         </For>
       </section>
+
+      <footer class="text-sm pt-5 pb-8 border-t-2 border-neutral-900 dark:border-slate-600">
+        Lojo Jojo is a Hacktoberfest 2022 project by{" "}
+        <a
+          class="text-indigo-500 hover:text-indigo-800 dark:text-slate-300 hover:dark:text-white"
+          href="https://github.com/SuperGeekJake"
+        >
+          Jake Williams
+        </a>{" "}
+        and{" "}
+        <a
+          class="text-indigo-500 hover:text-indigo-800 dark:text-slate-300 hover:dark:text-white"
+          href="https://twitter.com/meowlivia_"
+        >
+          Meowlivia
+        </a>
+        .
+      </footer>
     </main>
   );
 };
