@@ -1,11 +1,8 @@
 interface IVisit {
-  id: number;
-  locationId: number;
   date: number;
-}
-
-interface ILocation {
+  description: string;
+  featured: boolean;
   id: number;
-  name: string;
-  tags: string[];
+  imageUrl: string;
+  locationName: string;
 }

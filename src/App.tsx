@@ -10,21 +10,16 @@ import {
 import Visit from "./Visit";
 
 const App: Component = () => {
-  const [locations] = createResource<Record<string, ILocation>>(fetchLocations);
   const [visits] = createResource<Record<string, IVisit>>(fetchVisits);
   const [showFeatured, setShowFeatured] = createSignal(true);
 
   const list = createMemo(() => {
     const visitData = visits();
-    const locationData = locations();
-    if (!visitData || !locationData) return [];
+    if (!visitData) return undefined;
 
     const visitArr = Object.values(visitData).sort((a, b) => b.date - a.date);
     if (!showFeatured()) return visitArr;
-    return visitArr.filter((v) => {
-      const location = locationData[v.locationId];
-      return location.tags.includes("featured");
-    });
+    return visitArr.filter((v) => v.featured);
   });
 
   const toggle = () => {
@@ -70,16 +65,7 @@ const App: Component = () => {
       </nav>
 
       <section class="py-6 md:py-8 flex-1 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-5 gap-y-5 md:gap-y-7">
-        <For each={list()}>
-          {(item) => (
-            <Visit
-              visit={item}
-              location={
-                (locations() as Record<string, ILocation>)[item.locationId]
-              }
-            />
-          )}
-        </For>
+        <For each={list()}>{(item) => <Visit {...item} />}</For>
       </section>
 
       <footer class="text-sm pt-5 pb-8 border-t-2 border-neutral-900 dark:border-slate-600">
@@ -107,10 +93,5 @@ export default App;
 
 const fetchVisits = async () => {
   const res = await fetch("/.netlify/functions/visits");
-  return res.json();
-};
-
-const fetchLocations = async () => {
-  const res = await fetch("/.netlify/functions/locations");
   return res.json();
 };
