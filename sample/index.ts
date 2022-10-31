@@ -1,4 +1,6 @@
-import { sub, set } from "date-fns";
+import { sub, set, format } from "date-fns";
+// @ts-ignore
+import Papa from "papaparse";
 
 import getRandom from "./random";
 
@@ -52,19 +54,20 @@ const names = [
   "Yo Jo Coffee Shop",
 ];
 
-const createRecord = <T extends { id: number }>(arr: T[]) =>
-  arr.reduce((result, item) => {
-    result[item.id] = item;
-    return result;
-  }, {} as Record<string, T>);
-
-export const locations = createRecord(
-  names.map<ILocation>((name, index) => ({
-    id: index + 1,
-    name,
-    tags: random.bool(0.3) ? ["featured"] : [],
-  }))
-);
+const descriptions = [
+  "Best matcha latte!",
+  "Worst matcha latte :(",
+  "Pistachio croissant Yum!",
+  "Stale croissants only",
+  "Best coffee in town",
+  "Coffee is too hot",
+  "Love the atmosphere",
+  "Too loud",
+  "Great service",
+  "Just okay",
+  "Love the decor",
+  "Harry Potter themed",
+];
 
 const dates = Array.from({ length: 100 }, (_, index) =>
   sub(
@@ -78,12 +81,18 @@ const dates = Array.from({ length: 100 }, (_, index) =>
   ).getTime()
 ).sort((a, b) => a - b);
 
-const locationKeys = Object.keys(locations);
+const visits = [
+  ["Date", "Location Name", "Image Url", "Featured", "Description"],
+  ...dates.map(
+    (date) =>
+      [
+        format(date, "yyyy-MM-dd"),
+        names[random.int(names.length - 1, 0)],
+        `https://placekitten.com/150/150?image=${random.int(16)}`,
+        random.bool(0.3),
+        descriptions[random.int(descriptions.length - 1, 0)],
+      ] as const
+  ),
+];
 
-export const visits = createRecord(
-  dates.map<IVisit>((date, index) => ({
-    id: index + 1,
-    locationId: random.int(locationKeys.length),
-    date,
-  }))
-);
+export const sampleCSV = Papa.unparse(visits);
