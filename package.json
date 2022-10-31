@@ -1,7 +1,7 @@
 {
-  "name": "vite-template-solid",
-  "version": "0.0.0",
-  "description": "",
+  "name": "location-journal",
+  "version": "0.1.0",
+  "description": "A test of tracking data in Google Sheets and displaying that info",
   "scripts": {
     "start": "netlify dev",
     "build": "netlify build",

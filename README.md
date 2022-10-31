@@ -1,34 +1,45 @@
 ## Usage
 
-Those templates dependencies are maintained via [pnpm](https://pnpm.io) via `pnpm up -Lri`.
-
-This is the reason you see a `pnpm-lock.yaml`. That being said, any package manager will work. This file can be safely be removed once you clone a template.
+You will need to create Google service account credentials and give it access to a spreadsheet. Then those values must be placed in a `.env` file in the root directory.
 
 ```bash
-$ npm install # or pnpm install or yarn install
+GOOGLE_CREDENTIALS="{\"type\": \"service_account\", ... }"
+GOOGLE_SPREADSHEET_ID="TlkLIEsS9Twtb02z34Df1lYtyrfssM22-1DKfFeV5GB4"
 ```
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
+Spreadsheet must adhere to the following format otherwise UI will break. Note: The date format does not matter, will be converted to a number in the response.
+
+| Date       | Location Name  | Image Url                               | Featured | Description        |
+| ---------- | -------------- | --------------------------------------- | -------- | ------------------ |
+| 2022-04-13 | Ground Up Cafe | https://placekitten.com/150/150?image=7 | FALSE    | Best matcha latte! |
+
+Then you can run the following to work locally.
+
+```bash
+$ pnpm install
+$ pnpm start
+```
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm dev` or `npm start`
+### `pnpm start`
 
 Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
+Open [http://localhost:8888](http://localhost:8888) to view it in the browser.
 The page will reload if you make edits.<br>
 
-### `npm run build`
+### `pnpm build`
 
 Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
-
 The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
+### `pnpm test`
+
+Currently the only test is one used to output fake CSV data in a snapshot, which then can be copied into a CSV file and imported to Google Sheets.
+
 ## Deployment
 
-You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)
+You can deploy the `dist` and `functions` folders to Netlify, though the easiest method would be through the CLI tool. Make sure to set the ENV variables as well.
