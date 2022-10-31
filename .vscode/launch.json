@@ -1,0 +1,31 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "netlify dev",
+      "type": "node",
+      "request": "launch",
+      "skipFiles": ["<node_internals>/**"],
+      "outFiles": ["${workspaceFolder}/.netlify/functions-serve/**/*.js"],
+      "program": "${workspaceFolder}/node_modules/netlify-cli/bin/run.mjs",
+      "args": ["dev"],
+      "console": "integratedTerminal",
+      "env": { "BROWSER": "none" },
+      "serverReadyAction": {
+        "pattern": "Server now ready on (https?://[w:.-]+)",
+        "uriFormat": "%s",
+        "action": "debugWithChrome"
+      }
+    },
+    {
+      "name": "netlify functions:serve",
+      "type": "node",
+      "request": "launch",
+      "skipFiles": ["<node_internals>/**"],
+      "outFiles": ["${workspaceFolder}/.netlify/functions-serve/**/*.js"],
+      "program": "${workspaceFolder}/node_modules/netlify-cli/bin/run.mjs",
+      "args": ["functions:serve"],
+      "console": "integratedTerminal"
+    }
+  ]
+}
